@@ -49,7 +49,7 @@
 | Raspberry Pi 4B (树莓派4B)| [📥](https://op.supes.top/firmware/Rpi-4B/)         |   
 
 
-#### 后台入口 op/ 或 10.0.0.1 &nbsp;(若后台无法打开,请插拔交换wan,lan网线顺序.)
+#### 后台入口 op/ 或 192.168.2.1 &nbsp;(若后台无法打开,请插拔交换wan,lan网线顺序.)
 
 #### 默认密码 root
 

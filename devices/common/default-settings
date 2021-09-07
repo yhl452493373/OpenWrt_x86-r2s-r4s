@@ -40,7 +40,7 @@ grep -q op.supes.top /etc/bypass/white.list ||
 
 test $version -lt 1 && {
 	uci set luci.main.lang='auto'
-	uci set luci.main.mediaurlbase=/luci-static/edge
+	uci set luci.main.mediaurlbase=/luci-static/argon
 	uci commit luci
 
 	uci get system.@system[0] >/dev/null 2>&1 && {
@@ -82,7 +82,7 @@ test $version -lt 1 && {
 	uci commit fstab
  
  	test ! -f /etc/config/placeholder && {
-	uci set network.lan.ipaddr="10.0.0.1"
+	uci set network.lan.ipaddr="192.168.2.1"
 	uci set network.@globals[0].packet_steering=1
 	uci commit network
 	}
