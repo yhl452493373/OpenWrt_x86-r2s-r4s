@@ -60,7 +60,6 @@ return baseclass.extend({
 			tmpTitle = tmpTitleUpperCase == 'PASS WALL' ? '红杏出墙' : tmpTitle;
 			tmpTitle = tmpTitleUpperCase == 'OPENCLASH' ? '科学上网' : tmpTitle;
 			tmpTitle = tmpTitleUpperCase == 'KMS SERVER'? 'KMS服务' : tmpTitle;
-			tmpTitle = tmpTitleUpperCase == 'WIZARD'? '配置向导' : tmpTitle;
 			tmpTitle = tmpTitleUpperCase == 'UHTTPD'? 'WEB服务' : tmpTitle;
 			tmpTitle = tmpTitleUpperCase == 'UPNP'? '即插即用' : tmpTitle;
 			tmpTitle = tmpTitleUpperCase == 'INTERFACES' ? '接口配置' : tmpTitle;
