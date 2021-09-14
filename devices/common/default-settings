@@ -89,7 +89,7 @@ test $version -lt 1 && {
 	uci commit fstab
  
  	test ! -f /etc/config/placeholder && {
-	uci -q set network.lan.ipaddr="10.0.0.1"
+	uci -q set network.lan.ipaddr="192.168.2.1"
 	uci -q set network.@globals[0].packet_steering=1
 	uci commit network
 	}

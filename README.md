@@ -58,7 +58,7 @@
 + op/ 可打开 OpenWRT后台 即 lan ip
 + ql/ 可打开 青龙后台 即 lan ip:5700
 + adg/ 可打开 AdGuardHome管理后台 即 lan ip:3000
-+ pve/ 可打开 Proxmox VE虚拟机管理 默认为 10.0.0.10:8006
++ pve/ 可打开 Proxmox VE虚拟机管理 默认为 192.168.2.10:8006
 + by/ 可打开 Bypass插件页面 即 ip/luci/admin/services/bypass
 + pk/ 可打开 Packages插件管理页面 即 ip/luci/admin/system/opkg
 + ug/ 可打开 固件在线更新页面 即 ip/luci/admin/services/gpsysupgrade
