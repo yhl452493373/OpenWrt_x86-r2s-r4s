@@ -20,7 +20,7 @@ env:
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
   DOCKER_ID: ${{ secrets.DOCKER_ID }}
-  DOCKER_PASSSD: ${{ secrets.DOCKER_PASSSD }}
+  DOCKER_PASSWD: ${{ secrets.DOCKER_PASSWD }}
   TZ: Asia/Shanghai
 
 jobs:
@@ -48,14 +48,6 @@ jobs:
 
     - name: Load Settings.ini
       run: |
-        echo "UPDATE CLASH BINARY PERMISSION"
-        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash"
-        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash_tun"
-        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash_game"
-        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/usr/bin/npc"
-        ls -l "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core"
-        ls -l "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/usr/bin/npc"
-        echo "UPDATE CLASH BINARY PERMISSION FINISH"
         source "${GITHUB_WORKSPACE}/devices/common/settings.ini"
         if [ -f "devices/${{matrix.target}}/settings.ini" ]; then
           source "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/settings.ini"
@@ -295,26 +287,26 @@ jobs:
       
     - name: Set Up Docker Buildx
       uses: docker/setup-buildx-action@master
-      if: env.DOCKER_ID && env.DOCKER_PASSSD
+      if: env.DOCKER_ID && env.DOCKER_PASSWD
 
     - name: Login To DockerHub
       uses: docker/login-action@master
-      if: env.DOCKER_ID && env.DOCKER_PASSSD
+      if: env.DOCKER_ID && env.DOCKER_PASSWD
       with:
         username: ${{ secrets.DOCKER_ID }}
-        password: ${{ secrets.DOCKER_PASSSD }}
+        password: ${{ secrets.DOCKER_PASSWD }}
         
     - name: Build and push docker image
       uses: docker/build-push-action@master
       continue-on-error: true
-      if: env.DOCKER_ID && env.DOCKER_PASSSD
+      if: env.DOCKER_ID && env.DOCKER_PASSWD
       with:
-        platforms: env.ARCH
+        platforms: ${{ env.ARCH }}
         file: Dockerfile
         context: .
         push: true
         tags: |
-          ${{ secrets.DOCKER_ID }}/openwrt-nginx:${{matrix.target}}
+          ${{ secrets.DOCKER_ID }}/openwrt-nginx:${{ matrix.target }}
     
     - name: WeChat notification
       continue-on-error: true
