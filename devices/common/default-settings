@@ -47,7 +47,7 @@ test -n "$processor" || processor=3
 sed -i "s/^threads =.*/threads = $processor/" /etc/uwsgi/vassals/luci-webui.ini
 test $version -lt 1 && {
 	uci -q set luci.main.lang='auto'
-	uci -q set luci.main.mediaurlbase=/luci-static/edge
+	uci -q set luci.main.mediaurlbase=/luci-static/argon
 	uci commit luci
 
 	uci -q get system.@system[0] >/dev/null 2>&1 && {

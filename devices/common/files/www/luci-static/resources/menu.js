@@ -55,6 +55,7 @@ return baseclass.extend({
 			menuClass = hasChildren ? 'menu': null;
 			var tmpTitle = children[i].title;
 			var tmpTitleUpperCase = tmpTitle.toUpperCase();
+			tmpTitle = tmpTitleUpperCase == 'TTYD TERMINAL' ? '网页终端' : tmpTitle;
 			tmpTitle = tmpTitleUpperCase == 'FRP SETTING' ? 'FRP穿透' : tmpTitle;
 			tmpTitle = tmpTitleUpperCase == 'NPS SETTING' ? 'NPS穿透' : tmpTitle;
 			tmpTitle = tmpTitleUpperCase == 'PASS WALL' ? '红杏出墙' : tmpTitle;
