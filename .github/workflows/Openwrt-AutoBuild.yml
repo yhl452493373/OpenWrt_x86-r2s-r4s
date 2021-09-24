@@ -48,6 +48,14 @@ jobs:
 
     - name: Load Settings.ini
       run: |
+        echo "UPDATE CLASH BINARY PERMISSION"
+        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash"
+        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash_tun"
+        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash_game"
+        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/usr/bin/npc"
+        ls -l "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core"
+        ls -l "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/usr/bin/npc"
+        echo "UPDATE CLASH BINARY PERMISSION FINISH"
         source "${GITHUB_WORKSPACE}/devices/common/settings.ini"
         if [ -f "devices/${{matrix.target}}/settings.ini" ]; then
           source "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/settings.ini"
