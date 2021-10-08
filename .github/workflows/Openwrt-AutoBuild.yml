@@ -118,7 +118,7 @@ jobs:
         cd openwrt
         if [[ ${{matrix.target}} == "x86_64" ]]; then
             wget -cO sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/x86/64/openwrt-sdk-$REPO_BRANCH-x86-64_gcc-8.4.0_musl.Linux-x86_64.tar.xz || wget -cO sdk.tar.xz https://downloads.openwrt.org/releases/21.02-SNAPSHOT/targets/x86/64/openwrt-sdk-21.02-SNAPSHOT-x86-64_gcc-8.4.0_musl.Linux-x86_64.tar.xz
-        elif [[ ${{matrix.target}} =~ (nanopi-r2s|nanopi-r4s) ]]; then
+        elif [[ ${{matrix.target}} == nanopi* ]]; then
             wget -cO sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/rockchip/armv8/openwrt-sdk-$REPO_BRANCH-rockchip-armv8_gcc-8.4.0_musl.Linux-x86_64.tar.xz || wget -cO sdk.tar.xz https://downloads.openwrt.org/releases/21.02-SNAPSHOT/targets/rockchip/armv8/openwrt-sdk-21.02-SNAPSHOT-rockchip-armv8_gcc-8.4.0_musl.Linux-x86_64.tar.xz
         elif [[ ${{matrix.target}} =~ "Rpi-4B" ]]; then
             wget -cO sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2711/openwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2711_gcc-8.4.0_musl.Linux-x86_64.tar.xz || wget -cO sdk.tar.xz https://downloads.openwrt.org/releases/21.02-SNAPSHOT/targets/bcm27xx/bcm2711/openwrt-sdk-21.02-SNAPSHOT-bcm27xx-bcm2711_gcc-8.4.0_musl.Linux-x86_64.tar.xz
@@ -149,10 +149,10 @@ jobs:
           /bin/bash "devices/${{matrix.target}}/$DIY_SH"
         fi
         cp -Rf ./diy/* ./
-        cp -f devices/common/default-settings package/*/*/default-settings/files/uci.defaults
+        cp -f devices/common/default-settings package/*/*/my-default-settings/files/uci.defaults
         if [ -f "devices/${{matrix.target}}/default-settings" ]; then
-          echo >> package/*/*/default-settings/files/uci.defaults
-          cat devices/${{matrix.target}}/default-settings >> package/*/*/default-settings/files/uci.defaults
+          echo >> package/*/*/my-default-settings/files/uci.defaults
+          cat devices/${{matrix.target}}/default-settings >> package/*/*/my-default-settings/files/uci.defaults
         fi
         cp -f devices/common/$CONFIG_FILE .config
         if [ -f "devices/${{matrix.target}}/$CONFIG_FILE" ]; then
@@ -171,9 +171,9 @@ jobs:
     - name: Default PPPOE Setting
       if: env.PPPOE_USERNAME && env.PPPOE_PASSWD
       run: |
-        sed -i '$i uci set network.wan.username=${{ env.PPPOE_USERNAME }}' openwrt/package/*/*/default-settings/files/uci.defaults
-        sed -i '$i uci set network.wan.password=${{ env.PPPOE_PASSWD }}' openwrt/package/*/*/default-settings/files/uci.defaults
-        sed -i '$i uci commit network' openwrt/package/*/*/default-settings/files/uci.defaults
+        sed -i '$i uci set network.wan.username=${{ env.PPPOE_USERNAME }}' openwrt/package/*/*/my-default-settings/files/uci.defaults
+        sed -i '$i uci set network.wan.password=${{ env.PPPOE_PASSWD }}' openwrt/package/*/*/my-default-settings/files/uci.defaults
+        sed -i '$i uci commit network' openwrt/package/*/*/my-default-settings/files/uci.defaults
               
     - name: SSH connection to Actions
       uses: kiddin9/debugger-action@master
@@ -188,6 +188,7 @@ jobs:
 
     - name: Cache
       uses: klever1988/cachewrtbuild@main
+      if: contains(github.event.action, 'nocache') == false
       with:
         ccache: 'true'
         prefix: ${{ github.workspace }}/openwrt
@@ -308,7 +309,7 @@ jobs:
     - name: Build and push docker image
       uses: docker/build-push-action@master
       continue-on-error: true
-      if: env.DOCKER_ID && env.DOCKER_PASSWD
+      if: env.DOCKER_ID && env.DOCKER_PASSWD && ! contains(github.event.action, 'noser')
       with:
         platforms: ${{ env.ARCH }}
         file: Dockerfile
