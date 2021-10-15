@@ -44,7 +44,7 @@ test -n "$processor" || processor=3
 sed -i "s/^threads =.*/threads = $processor/" /etc/uwsgi/vassals/luci-webui.ini
 test $version -lt 1 && {
 	uci -q set luci.main.lang='auto'
-	uci -q set luci.main.mediaurlbase=/luci-static/edge
+	uci -q set luci.main.mediaurlbase=/luci-static/argon
 	uci commit luci
 
 	uci -q get system.@system[0] >/dev/null 2>&1 && {
@@ -85,7 +85,7 @@ test $version -lt 1 && {
 	uci -q set fstab.@global[0].anon_mount=1
 	uci commit fstab
  
-	uci -q set network.lan.ipaddr="10.0.0.1"
+	uci -q set network.lan.ipaddr="192.168.2.1"
 	uci -q set network.@globals[0].packet_steering=1
 	uci commit network
   

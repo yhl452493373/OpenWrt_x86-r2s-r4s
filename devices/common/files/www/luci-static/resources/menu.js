@@ -48,16 +48,15 @@ return baseclass.extend({
                 menuClass = hasChildren ? 'menu' : null;
             var tmpTitle = children[i].title;
             var tmpTitleUpperCase = tmpTitle.toUpperCase();
-            tmpTitle = tmpTitleUpperCase == 'FRP SETTING' ? 'FRP穿透' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'NPS SETTING' ? 'NPS穿透' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'PASS WALL' ? '红杏出墙' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'OPENCLASH' ? '科学上网' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'TERMINAL'? '网页终端' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'KMS SERVER'? 'KMS服务' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'UHTTPD'? 'WEB服务' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'UPNP'? '即插即用' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'INTERFACES' ? '接口配置' : tmpTitle;
-            tmpTitle = tmpTitleUpperCase == 'TTYD TERMINAL' ? '网页终端' : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "TTYD TERMINAL" ? "网页终端" : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "FRP SETTING" ? "FRP穿透" : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "NPS SETTING" ? "NPS穿透" : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "PASS WALL" ? "红杏出墙" : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "OPENCLASH" ? "科学上网" : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "KMS SERVER" ? "KMS服务" : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "UHTTPD" ? "WEB服务" : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "UPNP" ? "即插即用" : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == "INTERFACES" ? "接口配置" : tmpTitle;
             tmpTitle = tmpTitleUpperCase == 'QOS' ? '服务质量' : tmpTitle;
             if (isActive) {
                 ul.classList.add('active');
