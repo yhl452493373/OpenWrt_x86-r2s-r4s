@@ -24,6 +24,8 @@ sed -i 's?\(src/gz openwrt_\(core\|telephony\)\)?#\1?' /etc/opkg/distfeeds.conf
 echo $(uci -q get uhttpd.main.index_page) | grep -q "cgi-bin/luci" ||
 	uci -q add_list uhttpd.main.index_page='cgi-bin/luci' && uci commit uhttpd
 
+/etc/init.d/wizard disable
+
 [ -f /usr/bin/wget ] && 	
 	ln -s /usr/bin/wget /usr/bin/wget-ssl
 
@@ -106,7 +108,7 @@ test $version -lt 1 && {
 	uci -q set system.@system[0].cronloglevel='8'
 	uci commit system
 	
-	/etc/init.d/fa-pwmfan disable >/dev/null 2>&1
+	/etc/init.d/fa-fancontrol disable >/dev/null 2>&1
 }
 
 # kB
