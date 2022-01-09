@@ -35,12 +35,6 @@ echo $(uci -q get uhttpd.main.index_page) | grep -q "cgi-bin/luci" ||
 
 sed -i "s/git-.*-\(.*\)/git-\1/g" /usr/lib/lua/luci/version.lua
 
-/etc/init.d/packages enable
-sed -i '/init.d\/packages/d' /etc/crontabs/root
-hour="$(grep -m1 -ao '[4-6]' /dev/urandom | head -n1)"
-min="$(grep -m1 -ao '[0-5][0-9]' /dev/urandom | head -n1)"
-echo "$min $hour * * * /etc/init.d/packages start >/dev/null 2>&1" >> /etc/crontabs/root
-
 [[ "$(echo "$(/sbin/cpuinfo 2>/dev/null)" | grep -i "MHz")" ]] || sed -i "s/_('CPU Info'),cpuinfo.cpufreq,//" /www/luci-static/resources/view/status/include/10_system.js
 
 grep -q op.supes.top /etc/bypass/white.list ||
@@ -51,7 +45,7 @@ test -n "$processor" || processor=3
 sed -i "/^threads =/c\threads = $processor" /etc/uwsgi/vassals/luci-webui.ini
 test $version -lt 1 && {
 	uci -q set luci.main.lang='auto'
-	uci -q set luci.main.mediaurlbase=/luci-static/argon
+	uci -q set luci.main.mediaurlbase=/luci-static/edge
 	uci commit luci
 
 	uci -q get system.@system[0] >/dev/null 2>&1 && {
@@ -123,12 +117,13 @@ test $version -lt 1 && {
 
 	uci -q set turboacc.config.sw_flow='0'
 	uci -q set turboacc.config.sfe_flow='0'
+	uci -q set turboacc.config.fullcone_nat='1'
 	uci commit turboacc
 
 	uci -q set fstab.@global[0].anon_mount=1
 	uci commit fstab
  
-	uci -q set network.lan.ipaddr="192.168.2.1"
+	uci -q set network.lan.ipaddr="10.0.0.1"
 	uci -q set network.@globals[0].packet_steering=1
 	uci commit network
   
@@ -150,14 +145,6 @@ test $version -lt 1 && {
 	uci -q set system.@system[0].conloglevel='4'
 	uci -q set system.@system[0].cronloglevel='8'
 	uci commit system
-	
-	uci -q set firewall.@defaults[0].output='ACCEPT'
-	uci -q set firewall.@defaults[0].input='ACCEPT'
-	uci -q set firewall.@defaults[0].forward='ACCEPT'
-	uci -q set firewall.@zone[1].output='ACCEPT'
-	uci -q set firewall.@zone[1].input='ACCEPT'
-	uci -q set firewall.@zone[1].forward='ACCEPT'
-	uci commit firewall
 }
 
 # kB
