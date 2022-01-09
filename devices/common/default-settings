@@ -117,6 +117,7 @@ test $version -lt 1 && {
 
 	uci -q set turboacc.config.sw_flow='0'
 	uci -q set turboacc.config.sfe_flow='0'
+	uci -q set turboacc.config.fullcone_nat='1'
 	uci commit turboacc
 
 	uci -q set fstab.@global[0].anon_mount=1
