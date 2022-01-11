@@ -53,7 +53,7 @@
 | Raspberry Pi 4B (树莓派4B)| [📥](https://op.supes.top/firmware/Rpi-4B/)  | [kiddin9/openwrt-nginx:rpi-4b](https://hub.docker.com/r/kiddin9/openwrt-nginx)   |
 
 
-#### 后台入口 op/ 或 10.0.0.1 &nbsp;(若后台无法打开,请插拔交换wan,lan网线顺序.)
+#### 后台入口 op/ 或 192.168.2.1 &nbsp;(若后台无法打开,请插拔交换wan,lan网线顺序.)
 
 #### 默认密码 root
 
@@ -62,7 +62,7 @@
 + op/ 可打开 OpenWRT后台 即 lan ip
 + ql/ 可打开 青龙后台 即 lan ip:5700
 + adg/ 可打开 AdGuardHome管理后台 即 lan ip:3000
-+ pve/ 可打开 Proxmox VE虚拟机管理 默认为 10.0.0.10:8006
++ pve/ 可打开 Proxmox VE虚拟机管理 默认为 192.168.2.10:8006
 + by/ 可打开 Bypass插件页面 即 ip/luci/admin/services/bypass
 + pk/ 可打开 Packages插件管理页面 即 ip/luci/admin/system/opkg
 + ag/ 可打开 Aria2 Web面板 即 ip/ariang
