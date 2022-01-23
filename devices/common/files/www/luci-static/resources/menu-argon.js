@@ -62,6 +62,7 @@ return baseclass.extend({
             tmpTitle = tmpTitleUpperCase == "UPNP" ? "即插即用" : tmpTitle;
             tmpTitle = tmpTitleUpperCase == "INTERFACES" ? "接口配置" : tmpTitle;
             tmpTitle = tmpTitleUpperCase == 'QOS' ? '服务质量' : tmpTitle;
+            tmpTitle = tmpTitleUpperCase == 'NGINX MANAGER' ? 'NGINX管理' : tmpTitle;
             if (isActive) {
                 ul.classList.add('active');
                 slideClass += " active";
