@@ -48,6 +48,11 @@ jobs:
 
     - name: Load Settings.ini
       run: |
+        echo "UPDATE CLASH BINARY PERMISSION"
+        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash"
+        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash_tun"
+        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash_game"
+        echo "UPDATE CLASH BINARY PERMISSION FINISH"
         source "${GITHUB_WORKSPACE}/devices/common/settings.ini"
         if [ -f "devices/${{matrix.target}}/settings.ini" ]; then
           source "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/settings.ini"
@@ -211,11 +216,12 @@ jobs:
     - name: Organize files
       id: organize
       run: |
-        mkdir firmware
+        mkdir firmware kmods
         mv -f openwrt/bin/targets/*/*/{*combined*,*sysupgrade*} ./firmware/ 2>/dev/null || true
         cp openwrt/.config  ./firmware/${{matrix.target}}.config
         cp openwrt/build_dir/target-*/linux-*/linux-*/.config ./firmware/${{matrix.target}}_kernel.config
-        mv -f openwrt/bin/targets/*/*/packages ./kmods
+        kernel_v="$(cat openwrt/include/kernel-version.mk | grep LINUX_KERNEL_HASH-5.10* | cut -f 2 -d - | cut -f 1 -d ' ')"
+        mv -f openwrt/bin/targets/*/*/packages ./kmods/$kernel_v
         cd firmware
         echo "${{ env.VERSION }}.$(date +'%Y')" > version.txt
         rename -v "s/^openwrt/${{ env.VERSION }}-openwrt/" * || true
@@ -242,25 +248,16 @@ jobs:
         REMOTE_USER: root
         TARGET: "/www/wwwroot/op.supes.top/firmware/${{matrix.target}}/"
 
-    - name: remote ssh command
-      uses: appleboy/ssh-action@master
-      if: env.SSH_PRIVATE_KEY && ! contains(github.event.action, 'noser') && env.MTARGET
-      with:
-        host: op.supes.top
-        username: root
-        key: ${{ env.SSH_PRIVATE_KEY }}
-        script: mkdir -p /www/wwwroot/op.supes.top/packages/${{ env.MTARGET }}/kmods/${{ env.REPO_BRANCH }}
-
     - name: Deploy kmods to server
       uses: easingthemes/ssh-deploy@main
       if: env.SSH_PRIVATE_KEY && ! contains(github.event.action, 'noser') && env.MTARGET
       with:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        ARGS: "-avzr --delete"
+        ARGS: "-avzr"
         SOURCE: kmods/
         REMOTE_HOST: op.supes.top
         REMOTE_USER: root
-        TARGET: "/www/wwwroot/op.supes.top/packages/${{ env.MTARGET }}/kmods/${{ env.REPO_BRANCH }}/"
+        TARGET: "/www/wwwroot/op.supes.top/packages/${{ env.MTARGET }}/kmods/"
 
     - name: Upload firmware for artifact
       uses: actions/upload-artifact@main
