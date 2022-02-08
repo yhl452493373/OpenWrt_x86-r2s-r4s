@@ -1,0 +1,21 @@
+uci -q set wizard.default.coremark="1"
+uci -q set wizard.default.lan_ipaddr="192.168.2.1"
+uci commit wizard
+
+
+uci -q set luci.main.lang='auto'
+uci -q set luci.main.mediaurlbase=/luci-static/argon
+uci commit luci
+
+uci -q set firewall.@defaults[0].fullcone='1'
+uci -q set firewall.@defaults[0].output='ACCEPT'
+uci -q set firewall.@defaults[0].input='ACCEPT'
+uci -q set firewall.@defaults[0].forward='ACCEPT'
+uci -q set firewall.@zone[1].output='ACCEPT'
+uci -q set firewall.@zone[1].input='ACCEPT'
+uci -q set firewall.@zone[1].forward='ACCEPT'
+uci commit firewall
+
+uci -q set network.lan.ipaddr="192.168.2.1"
+uci -q set network.@globals[0].packet_steering=1
+uci commit network
