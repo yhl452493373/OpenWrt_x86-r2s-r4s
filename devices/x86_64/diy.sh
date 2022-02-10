@@ -6,8 +6,8 @@ rm -rf target/linux/x86/patches-5.10/.svn
 sed -i 's,kmod-r8169,kmod-r8168,g' target/linux/x86/image/64.mk
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += my-autocore-x86 lm-sensors-detect kmod-r8125 kmod-vmxnet3  kmod-igc/' target/linux/x86/Makefile
 
-sed -i 's,"eth0 eth2 eth3" "eth1","eth1 eth2 eth3" "eth0",g' target/linux/x86/base-files/etc/board.d/02_network
-sed -i 's,"eth0 eth2 eth3 eth4 eth5 eth6 eth7" "eth1","eth1 eth2 eth3 eth4 eth5 eth6 eth7" "eth0",g' target/linux/x86/base-files/etc/board.d/02_network
+sed -i 's/"eth0 eth2 eth3" "eth1"/"eth1 eth2 eth3" "eth0"/' target/linux/x86/base-files/etc/board.d/02_network
+sed -i 's/"eth0 eth2 eth3 eth4 eth5 eth6 eth7" "eth1"/"eth1 eth2 eth3 eth4 eth5 eth6 eth7" "eth0"/' target/linux/x86/base-files/etc/board.d/02_network
 
 echo '
 CONFIG_CRYPTO_CHACHA20_X86_64=y
