@@ -262,6 +262,8 @@ jobs:
           echo $md5 >> $i/version.txt
           echo v$REPO_BRANCH >> $i/version.txt
         done
+        mkdir ${{ env.REPO_BRANCH }}
+        cp -rf openwrt/bin/targets ${{ env.REPO_BRANCH }}/
         Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
         echo "EMOJI=${Emoji[$[$RANDOM % ${#Emoji[@]}]]}" >> $GITHUB_ENV
         if [ ${{matrix.target}} == "x86_64" ]; then
@@ -296,11 +298,11 @@ jobs:
       if: env.SSH_PRIVATE_KEY && ! contains(github.event.action, 'noser')
       with:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        ARGS: "-avzr"
-        SOURCE: openwrt/bin/targets
+        ARGS: "-avzr --delete"
+        SOURCE: openwrt/${{ env.REPO_BRANCH }}/targets
         REMOTE_HOST: op.supes.top
         REMOTE_USER: root
-        TARGET: "/www/wwwroot/op.supes.top/releases/${{ env.REPO_BRANCH }}/"
+        TARGET: "/www/wwwroot/op.supes.top/releases/"
 
     - name: Upload firmware for artifact
       uses: actions/upload-artifact@main
