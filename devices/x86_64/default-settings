@@ -16,3 +16,28 @@ uci commit firewall
 
 uci -q set network.lan.ipaddr="192.168.2.1"
 uci commit network
+
+uci -q delete nginx._lan
+uci -q delete nginx._ssl
+uci -q delete nginx._redirect2ssl
+uci -q set nginx._lan=server
+uci -q set nginx._lan.listen='80 default_server'
+uci -q set nginx._lan.server_name='_lan'
+uci -q set nginx._lan.index='luci index.html index.htm'
+uci -q set nginx._lan.include='restrict_locally'
+uci -q set nginx._lan.access_log='off; # logd openwrt'
+uci -q set nginx._ssl=server
+uci -q set nginx._ssl.listen='443 ssl'
+uci -q set nginx._ssl.server_name='_ssl'
+uci -q set nginx._ssl.index='ng_index.html'
+uci -q set nginx._ssl.include='conf.d/*.locations'
+uci -q set nginx._ssl.ssl_certificate='/etc/nginx/conf.d/_lan.crt'
+uci -q set nginx._ssl.ssl_certificate_key='/etc/nginx/conf.d/_lan.key'
+uci -q set nginx._ssl.ssl_session_cache='shared:SSL:32k'
+uci -q set nginx._ssl.ssl_session_timeout='64m'
+uci -q set nginx._ssl.access_log='off; # logd openwrt'
+uci -q set nginx._redirect2ssl=server
+uci -q add_list nginx._lan.listen='[::]:80 default_server'
+uci -q add_list nginx._ssl.listen='[::]:443 ssl'
+uci -q add_list nginx._lan.include='conf.d/*.locations'
+uci commit nginx
