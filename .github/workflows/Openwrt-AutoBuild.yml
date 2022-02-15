@@ -267,9 +267,6 @@ jobs:
           echo $md5 >> $i/version.txt
           echo v$REPO_BRANCH >> $i/version.txt
         done
-        if [ ${{matrix.target}} == "x86_64" ]; then
-        rm -rf ./firmware/${{matrix.target}}/*combined.img.gz
-        fi
         mkdir ${{ env.REPO_BRANCH }}
         cp -rf openwrt/bin/targets ${{ env.REPO_BRANCH }}/
         Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
