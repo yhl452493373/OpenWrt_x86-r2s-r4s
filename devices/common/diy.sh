@@ -21,7 +21,7 @@ sed -i 's/ libelf//' tools/Makefile
 sed -i '/$(curdir)\/compile:/c\$(curdir)/compile: package/opkg/host/compile' package/Makefile
 
 sed -i "s/DEFAULT_PACKAGES:=/DEFAULT_PACKAGES:=luci-app-advanced luci-app-firewall luci-app-opkg luci-app-upnp luci-app-autoreboot \
-luci-app-wizard dnsmasq-full luci-base luci-compat luci-lib-ipkg \
+dnsmasq-full luci-base luci-compat luci-lib-ipkg \
 coremark wget-ssl curl htop nano iptables-mod-fullconenat kmod-lib-zstd kmod-tcp-bbr bash \
 wpad-basic-wolfssl kmod-usb2 kmod-usb3 automount /" include/target.mk
 sed -i "/dnsmasq \\\/d" include/target.mk
