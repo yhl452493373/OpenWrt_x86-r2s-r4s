@@ -1,13 +1,13 @@
 uci -q set luci.main.mediaurlbase=/luci-static/argon
 uci commit luci
 
-uci -q set firewall.@defaults[0].output='ACCEPT'
-uci -q set firewall.@defaults[0].input='ACCEPT'
-uci -q set firewall.@defaults[0].forward='ACCEPT'
-uci -q set firewall.@zone[1].output='ACCEPT'
-uci -q set firewall.@zone[1].input='ACCEPT'
-uci -q set firewall.@zone[1].forward='ACCEPT'
-uci commit firewall
+#uci -q set firewall.@defaults[0].output='ACCEPT'
+#uci -q set firewall.@defaults[0].input='ACCEPT'
+#uci -q set firewall.@defaults[0].forward='ACCEPT'
+#uci -q set firewall.@zone[1].output='ACCEPT'
+#uci -q set firewall.@zone[1].input='ACCEPT'
+#uci -q set firewall.@zone[1].forward='ACCEPT'
+#uci commit firewall
 
 uci -q set network.lan.ipaddr="192.168.2.1"
 uci commit network
