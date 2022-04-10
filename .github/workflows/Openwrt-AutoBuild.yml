@@ -315,7 +315,7 @@ jobs:
         username: root
         key: ${{ env.SSH_PRIVATE_KEY }}
         script: |
-          cd /www/wwwroot/op.supes.top/packages/${{ env.MTARGET }}/kmods/${{ env.MTARGET }}
+          cd /www/wwwroot/op.supes.top/packages/${{ env.MTARGET }}/kmods/${{ env.KERNEL }}
           opkg &
 
     - name: Upload firmware for artifact
