@@ -7,10 +7,6 @@ sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += my-autocore-x86 lm-sensors-det
 
 sed -i 's,kmod-r8169,kmod-r8168,g' target/linux/x86/image/64.mk
 
-sed -i 's/"eth0 eth2 eth3" "eth1"/"eth1 eth2 eth3" "eth0"/' target/linux/x86/base-files/etc/board.d/02_network
-sed -i 's/"eth0 eth2 eth3 eth4 eth5 eth6 eth7" "eth1"/"eth1 eth2 eth3 eth4 eth5 eth6 eth7" "eth0"/' target/linux/x86/base-files/etc/board.d/02_network
-sed -i 's/"eth0 eth1 eth2 eth3 eth4 eth5 eth7 eth8 eth9 eth10 eth11" "eth6"/"eth1 eth2 eth3 eth4 eth5 eth6 eth7 eth8 eth9 eth10 eth11" "eth0"/' target/linux/x86/base-files/etc/board.d/02_network
-
 echo '
 CONFIG_CRYPTO_CHACHA20_X86_64=y
 CONFIG_CRYPTO_POLY1305_X86_64=y
