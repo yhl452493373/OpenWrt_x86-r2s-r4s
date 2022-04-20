@@ -48,10 +48,6 @@ jobs:
 
     - name: Load Settings.ini
       run: |
-        echo "UPDATE CLASH BINARY PERMISSION"
-        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash"
-        chmod +x "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash/core/clash_tun"
-        echo "UPDATE CLASH BINARY PERMISSION FINISH"
         source "${GITHUB_WORKSPACE}/devices/common/settings.ini"
         if [ -f "devices/${{matrix.target}}/settings.ini" ]; then
           source "${GITHUB_WORKSPACE}/devices/${{matrix.target}}/settings.ini"
@@ -78,6 +74,39 @@ jobs:
             echo "MTARGET=aarch64_generic" >> $GITHUB_ENV
         elif [ ${{matrix.target}} == "phicomm-N1" ]; then
             echo "MTARGET=aarch64_cortex-a53" >> $GITHUB_ENV
+        fi
+
+    - name: Download Additional Binary
+      run: |
+        if [[ ${{matrix.target}} == "x86_64" ]]; then
+          OPENCLASH_DIR=${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/etc/openclash
+          # 创建OpenClash使用的clash二进制文件所在的路径
+          mkdir -p $OPENCLASH_DIR/core
+          # 设置Clash下载地址变量
+          # 从github上指定分支的文件中下载
+          OPENCLASH_MAIN_URL=$( curl -sL https://api.github.com/repos/vernesong/OpenClash/contents/core-lateset/dev?ref=master | grep dev/clash-linux-amd64.tar.gz | awk -F '"' '{print $4}' | awk 'NR==4{print}' )
+          CLASH_TUN_URL=$( curl -sL https://api.github.com/repos/vernesong/OpenClash/contents/core-lateset/premium?ref=master | grep premium/clash-linux-amd64 | awk -F '"' '{print $4}' | awk 'NR==4{print}' )
+          CLASH_META_URL=$( curl -sL https://api.github.com/repos/vernesong/OpenClash/contents/core-lateset/meta?ref=master | grep meta/clash-linux-amd64.tar.gz | awk -F '"' '{print $4}' | awk 'NR==4{print}' )
+          # 下载并解压OpenClash的执行文件
+          wget -qO- $OPENCLASH_MAIN_URL | tar xOvz > $OPENCLASH_DIR/core/clash
+          wget -qO- $CLASH_TUN_URL | gunzip -c > $OPENCLASH_DIR/core/clash_tun
+          wget -qO- $CLASH_META_URL | tar xOvz > $OPENCLASH_DIR/core/clash_meta
+          # 给Clash二进制文件增加执行权限
+          chmod +x $OPENCLASH_DIR/core/clash*
+          # 下载默认IP相关数据
+          wget -qO- https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/lite/Country.mmdb > $OPENCLASH_DIR/Country.mmdb
+          wget -qO- https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat > $OPENCLASH_DIR/GeoIP.dat
+          wget -qO- https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat > $OPENCLASH_DIR/GeoSite.dat
+          # 创建npc的二进制文件所在路径
+          NPC_DIR=${GITHUB_WORKSPACE}/devices/${{matrix.target}}/files/usr/bin
+          mkdir -p ${NPC_DIR}
+          # 设置NPC下载地址变量，只取第一条记录，即最新的
+          # 从github上releases下载
+          NPC_URL=$( curl -sL https://api.github.com/repos/ehang-io/nps/releases | grep /linux_amd64_client | awk -F '"' '{print $4}' | awk 'NR==1{print}' )
+          # 下载并解压其中的根目录下名为npc的执行文件
+          wget -qO- $NPC_URL | tar xOvz npc > $NPC_DIR/npc
+          # 给npc二进制文件增加执行权限
+          chmod +x $NPC_DIR/npc
         fi
 
     - name: Trigger Packages Update
