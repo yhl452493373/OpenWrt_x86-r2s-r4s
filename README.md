@@ -95,7 +95,7 @@ bash -c "$(curl -fsSL https://git.io/rebuild.sh)"
 
 ### 3.1 **后台**
 
-+ 登录地址 op/ 或 10.0.0.1 (若后台无法打开，请尝试插拔交换wan、lan网线顺序。)
++ 登录地址 op/ 或 192.168.2.1 (若后台无法打开，请尝试插拔交换wan、lan网线顺序。)
 
 + 默认用户 root
 
@@ -110,7 +110,7 @@ bash -c "$(curl -fsSL https://git.io/rebuild.sh)"
 
 + adg/ 可打开 AdGuardHome管理后台 即 lan ip:3000
 
-+ pve/ 可打开 Proxmox VE虚拟机管理 默认为 10.0.0.10:8006
++ pve/ 可打开 Proxmox VE虚拟机管理 默认为 192.168.2.10:8006
 
 + by/ 可打开 Bypass插件页面 即 ip/luci/admin/services/bypass
 
