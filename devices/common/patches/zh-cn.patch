@@ -9,3 +9,5 @@
 +		po2lmo $(po) \
 +		$(1)$(LUCI_LIBRARYDIR)/i18n/$(basename $(notdir $(po))).zh-cn.lmo;)
  endef
+ 
+ ifndef Package/$(PKG_NAME)/postinst
